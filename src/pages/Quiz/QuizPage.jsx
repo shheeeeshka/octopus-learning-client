@@ -1,4 +1,4 @@
-import styles from "./TestPage.module.css";
+import styles from "./QuizPage.module.css";
 import ProgressBar from "react-bootstrap/ProgressBar";
 
 import { useLocation } from "react-router-dom";
@@ -181,15 +181,31 @@ const QuizPage = () => {
     };
 
     const handleGoToNextQuestion = () => {
-        if (test["q"].length === questionIndex + 1) return setShowTestResults(true);
+        const move = test?.q[questionIndex].answers?.some(ans => ans["displayCorrectAnswers"]);
+        setTest(test => {
+            const p = { ...test };
+            p.q[questionIndex].answers?.forEach((q) => {
+                if (q.isCorrect) {
+                    q["displayCorrectAnswers"] = true;
+                } else {
+                    q["displayCorrectAnswers"] = false;
+                }
+            });
+            return p;
+        });
         const isCorrectAnswer = test?.q[questionIndex].answers?.every((ans) => (!ans.isCorrect && !ans.isChecked) || (ans.isCorrect && ans.isChecked));
         if (isCorrectAnswer) setCorrectAnswers(p => p + 1);
         setTotalAnswers(p => p + 1);
+        if (test["q"].length === questionIndex + 1) return setShowTestResults(true);
+        if (!move) return;
         setQuestionIndex(p => p + 1);
     };
 
     const handleAnswer = (i) => {
         // if (test["q"].length === questionIndex + 1) return;
+        const clickable = !test?.q[questionIndex].answers?.some(ans => ans["displayCorrectAnswers"]);
+        if (!clickable) return;
+
         const isC = !!test?.q[questionIndex].answers[i].isChecked;
         setTest(test => {
             const p = { ...test };
@@ -220,7 +236,11 @@ const QuizPage = () => {
                     <ul className={styles["answers-block"]}>
                         {
                             test["q"][questionIndex].answers?.map((ans, ind) => (
-                                <li key={ind} onClick={() => handleAnswer(ind)} className={styles["answer-option"] + `${ans.isChecked ? " " + styles["a-o-checked"] : ""}`}>{ans.value}</li>
+                                <li
+                                    key={ind}
+                                    onClick={() => handleAnswer(ind)}
+                                    className={styles["answer-option"] + `${ans.isChecked && !ans.displayCorrectAnswers ? " " + styles["a-o-checked"] : ""}` + `${ans.displayCorrectAnswers ? " " + styles["a-o-display-correct-ans"] : ""}`}
+                                >{ans.value}</li>
                             ))
                         }
                     </ul>
@@ -228,7 +248,7 @@ const QuizPage = () => {
                 <div className={styles["bottom-block"]}>
                     <div className={styles["t-p-window-bottom-btn"] + " no-select"} onClick={() => handleGoToPreviousQuestion()}><span>Назад</span></div>
                     <div className={styles["t-p-window-bottom-pagin"]}><span>{questionIndex + 1}/{test?.q?.length}</span></div>
-                    <div className={styles["t-p-window-bottom-btn"] + " no-select"} onClick={() => handleGoToNextQuestion()}><span>{test?.q?.length - 1 === questionIndex ? "Завершить" : "Далее"}</span></div>
+                    <div className={styles["t-p-window-bottom-btn"] + " no-select"} onClick={() => handleGoToNextQuestion()}><span>{test?.q?.length - 1 === questionIndex ? "Завершить" : (test?.q[questionIndex].answers?.some(ans => ans["displayCorrectAnswers"]) ? "Далее" : "Проверить")}</span></div>
                 </div>
             </div>
             {
@@ -237,7 +257,7 @@ const QuizPage = () => {
                         <span style={{ position: "absolute", cursor: "pointer", right: 25, top: 10 }} onClick={() => setShowTestResults(false)}>X</span>
                     </div>
                     <div style={{ position: "absolute", top: 40, left: 40 }}>
-                        <h3>Результаты теста :</h3>
+                        <h3>Результаты теста : {correctAnswers} / {totalAnswers}</h3>
                         <ProgressBar
                             now={now}
                             label={`${now}%`}

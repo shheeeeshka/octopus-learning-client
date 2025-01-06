@@ -104,6 +104,11 @@
     width: 100%;
 }
 
+.a-o-display-correct-ans {
+    background: green;
+    color: #fff;
+}
+
 @media (max-width: 635px) {
     .t-p-window {
         min-width: 500px;
