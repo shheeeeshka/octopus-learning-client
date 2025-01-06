@@ -1,0 +1,39 @@
+.user-page-container {
+    padding: 30px 40px;
+    width: calc(100% - 260px);
+    position: absolute;
+    right: 0;
+}
+
+.user-card {
+    display: flex;
+    padding: 20px 0;
+}
+
+.photo-wrapper {
+    height: 200px;
+    width: 200px;
+    background: aliceblue;
+    border-radius: 12px;
+}
+
+.st-icon-wrapper {
+    display: grid;
+    place-content: center;
+    height: 50px;
+    width: 50px;
+    border-radius: 10px;
+    box-shadow: 1px 2px 0px 0px rgba(220, 220, 220, 0.5);
+}
+
+.user-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+@media (max-width: 1200px) {
+    .user-page-container {
+        width: auto !important;
+    }
+}

@@ -1,0 +1,30 @@
+.auth-page-container {
+    padding: 30px 40px;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    place-content: center;
+    background: aliceblue;
+}
+
+.a-p-window {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 2px 3px 0px 0px rgb(152 152 152 / 50%);
+    width: 800px;
+    height: 700px;
+    padding: 20px;
+}
+
+.auth-window-input {
+    border-radius: 11px;
+    border: none;
+    background: #e3eaf0;
+    width: 300px;
+    height: 35px;
+    padding: 7px;
+}
+
+.auth-window-label {
+    color: #dadee1;
+}

@@ -1,0 +1,42 @@
+.module-page-container {
+    width: calc(100% - 260px);
+    position: absolute;
+    right: 0;
+    padding: 20px;
+    background: #fff5e9;
+}
+
+.module-window {
+    padding: 20px 30px;
+    border: 1px solid;
+    border-radius: 10px;
+    background: #fff;
+}
+
+
+.open-test-button {
+    padding: 7px 15px;
+    border: 2px solid;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all .3s;
+}
+
+.open-test-button:hover {
+    background: #0a58ca;
+    color: #fff;
+}
+
+.module-content {
+    margin: 30px 0;
+}
+
+.module-content>p {
+    text-indent: 0px;
+}
+
+@media (max-width: 1200px) {
+    .module-page-container {
+        width: auto !important;
+    }
+}

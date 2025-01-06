@@ -1,0 +1,25 @@
+.admin-page-container {
+    padding: 30px 150px;
+    width: calc(100% - 260px);
+    position: absolute;
+    right: 0;
+}
+
+.a-p-quill-wrapper {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* .a-p-quill-lesson-content {
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 10px;
+} */
+
+@media (max-width: 1200px) {
+    .admin-page-container {
+        width: auto !important;
+    }
+}
