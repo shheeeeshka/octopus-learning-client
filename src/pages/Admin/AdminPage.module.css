@@ -3,6 +3,7 @@
     width: calc(100% - 260px);
     position: absolute;
     right: 0;
+    background: var(--page-container-bg);
 }
 
 .a-p-quill-wrapper {

@@ -13,8 +13,8 @@ const HomePage = () => {
                 {
                     modules?.map((module, ind) => (
                         <Link to={`module?topic=${module.title}`} key={ind} className={styles["module-card"]}>
-                            <div style={{ border: "0px solid", height: "100%", width: "190px" }}>
-                                <img src={module.previewImg} alt="preview" style={{ height: 90, width: 90, borderRadius: 15 }} />
+                            <div style={{ border: "0px solid", height: "100%", width: "190px", padding: 3 }}>
+                                <img src={module.previewImg} alt="preview" style={{ height: "100%", borderRadius: 15 }} />
                             </div>
                             <div className="d-flex flex-column" style={{ gap: 20, padding: "0 25px" }}>
                                 <div className="d-flex justify-content-between" style={{}}>

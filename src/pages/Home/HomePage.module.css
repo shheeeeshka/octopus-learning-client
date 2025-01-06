@@ -7,7 +7,7 @@
     width: calc(100% - 260px);
     position: absolute;
     right: 0;
-    background: #fff5e9;
+    background: var(--page-container-bg);
 }
 
 .h-p-modules {

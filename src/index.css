@@ -5,7 +5,7 @@
   font-family: "Varela Round", serif;
   font-weight: 500;
   font-style: normal;
-  /* --bs-progress-bar-bg: linear-gradient(90deg, #fba7db, #ffb9a7) !important; */
+  --page-container-bg: #fff5e9;
 }
 
 .no-select {
@@ -30,7 +30,7 @@ body {
 main {
   width: 100%;
   min-height: 100vh;
-  background: #fff5e9;
+  background: var(--page-container-bg);
 }
 
 a {
@@ -41,4 +41,15 @@ ul,
 ol {
   list-style: none;
   padding-left: 0 !important;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100vw;
+  z-index: 3;
+  background: rgba(87, 84, 84, 0.5);
+  pointer-events: auto;
 }

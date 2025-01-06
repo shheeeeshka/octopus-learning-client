@@ -218,7 +218,6 @@ const QuizPage = () => {
 
     return (
         <div className={styles["quiz-page-container"]}>
-            <div className="overlay"></div>
             <div className={styles["t-p-window"]}>
                 <div className={styles["t-p-window-head"]}>
                     <h3>{topicName}</h3>
