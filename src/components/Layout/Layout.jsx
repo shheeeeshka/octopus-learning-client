@@ -1,5 +1,6 @@
-import { Outlet } from "react-router-dom";
 import Sidebar from "../Sidebar/Sidebar";
+
+import { Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSwipeable } from "react-swipeable";
 

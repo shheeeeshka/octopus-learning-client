@@ -1,4 +1,4 @@
-import { createContext, useCallback, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import AuthService from "../services/AuthService";
 
 export const AuthContext = createContext();
@@ -8,12 +8,32 @@ export const AuthContextProvider = ({ children }) => {
     const [isAuthLoading, setIsAuthLoading] = useState(false);
     const [authError, setAuthError] = useState(null);
     const [authInfo, setAuthInfo] = useState({
+        name: "",
+        surname: "",
         email: "",
         password: "",
     });
+    const [preferedTheme, setPreferedTheme] = useState(() => localStorage.getItem("theme") || "light");
+
+    useEffect(() => {
+        document.documentElement.setAttribute("data-theme", preferedTheme);
+    }, [preferedTheme]);
+
+    const toggleTheme = () => {
+        const newTheme = preferedTheme === "dark" ? "light" : "dark";
+        setPreferedTheme(newTheme);
+        localStorage.setItem("theme", newTheme);
+    };
 
     const updateAuthInfo = useCallback((updatedAuthInfo) => {
-        setAuthInfo(updatedAuthInfo);
+        setAuthInfo(prevAuthInfo => {
+            const newAuthInfo = {
+                ...prevAuthInfo,
+                ...updatedAuthInfo
+            };
+            console.log(newAuthInfo); // Логируем новое состояние
+            return newAuthInfo;
+        });
     }, []);
 
     const registerUser = useCallback(() => {
@@ -70,6 +90,8 @@ export const AuthContextProvider = ({ children }) => {
 
     return <AuthContext.Provider
         value={{
+            preferedTheme,
+            toggleTheme,
             user,
             authInfo,
             updateAuthInfo,

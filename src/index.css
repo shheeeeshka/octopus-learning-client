@@ -5,7 +5,8 @@
   font-family: "Varela Round", serif;
   font-weight: 500;
   font-style: normal;
-  --page-container-bg: #fff5e9;
+  /* --page-container-bg: linear-gradient(to right, #afced2, #bbb4dd);
+  --sidebar-bg: #d1e5e4; */
 }
 
 .no-select {
@@ -25,6 +26,22 @@ body {
 #root {
   height: 100vh;
   width: 100vw;
+}
+
+:root[data-theme="light"] {
+  --page-container-bg: linear-gradient(to right, #afced2, #bbb4dd);
+  --sidebar-bg: #b1cad4;
+  --sidebar-wrapper-bg: #afcdd2;
+  --module-window-bg: #fff;
+  --module-window-text-color: black;
+}
+
+:root[data-theme="dark"] {
+  --page-container-bg: linear-gradient(to right, #0f5963, #161037);
+  --sidebar-bg: #0e5762;
+  --sidebar-wrapper-bg: #0e5762;
+  --module-window-bg: #505050;
+  --module-window-text-color: #d4d4d4;
 }
 
 main {
