@@ -15,7 +15,7 @@ const AppRouter = () => {
 
     return (
         <Routes>
-            <Route path="/" element={user ? <Navigate to="auth" /> : <Layout />}>
+            <Route path="/" element={!user ? <Navigate to="auth" /> : <Layout />}>
                 <Route index element={<HomePage />} />
                 <Route path="user-profile" element={<UserPage />} />
                 <Route path="module" element={<ModulePage />} />

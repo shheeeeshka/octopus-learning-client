@@ -178,7 +178,6 @@ const QuizPage = () => {
             setElapsedTime(prevTime => prevTime + 1);
         }, 1000);
 
-
         return () => {
             clearInterval(interval);
         };

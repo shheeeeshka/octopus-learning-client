@@ -80,6 +80,7 @@ export const AuthContextProvider = ({ children }) => {
             localStorage.setItem("user-statistics", JSON.stringify(data.userStatistics));
             localStorage.setItem("user-achievements", JSON.stringify([...userAchievements, data.newUserAchievement]));
             setUser(data.user);
+            setUserStatistics(data.userStatistics);
             setUserAchievements(p => [...p, data.newUserAchievement]);
         } catch (err) {
             setAuthError(err.message);
@@ -95,8 +96,10 @@ export const AuthContextProvider = ({ children }) => {
             const { data } = await AuthService.login(authInfo);
             localStorage.setItem("token", JSON.stringify(data.accessToken));
             localStorage.setItem("user", JSON.stringify(data.user));
+            localStorage.setItem("user-statistics", JSON.stringify(data.userStatistics));
             localStorage.setItem("user-achievements", JSON.stringify(data.userAchievements));
             setUser(data.user);
+            setUserStatistics(data.userStatistics);
             setUserAchievements(data.userAchievements);
         } catch (err) {
             setAuthError(err.message);
