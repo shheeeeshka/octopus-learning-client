@@ -105,6 +105,10 @@
         display: none;
     }
 
+    .home-right-sidebar {
+        height: auto;
+    }
+
     .module-card-description {
         font-size: 14px;
     }

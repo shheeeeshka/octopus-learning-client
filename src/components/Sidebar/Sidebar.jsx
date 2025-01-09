@@ -12,7 +12,7 @@ const Sidebar = ({ isMenuOpened, setIsMenuOpened }) => {
         <div className={styles["sidebar-wrapper"] + `${isMenuOpened ? " " + styles["sidebar-active"] : ""}` + " " + "no-select"}>
             <div className={styles["sidebar"]}>
                 <div className="d-flex align-items-center" style={{ gap: "10px" }}>
-                    <img src="/logo-octopus.png" alt="logo" style={{ height: 50 }} />
+                    <img src="/logo-book.png" alt="logo" style={{ height: 50 }} />
                     <span style={{ fontWeight: 900, fontSize: 22 }}>Octopus</span>
                 </div>
 

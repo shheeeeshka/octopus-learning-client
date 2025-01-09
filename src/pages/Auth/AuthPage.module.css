@@ -18,6 +18,7 @@
     flex-direction: column;
     justify-content: center;
     gap: 20px;
+    z-index: 2;
 }
 
 .auth-window-input {
@@ -33,12 +34,43 @@
     color: #dadee1;
 }
 
+.auth-photo-container {
+    position: absolute;
+    height: 575px;
+    width: 400px;
+    border-radius: 10px;
+    display: flex;
+    left: 56%;
+    top: 18%;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: linear-gradient(117deg, #8579b1, #61cfce);
+}
+
+.logo-info-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.auth-details-wrapper {
+    position: relative;
+    height: 100%;
+}
+
 .auth-btn {
     cursor: pointer;
-    border: 1px solid;
     border-radius: 10px;
     padding: 7px;
+    color: #fff;
+    background: linear-gradient(146deg, #8e7db5, #5bd5cd);
     min-width: 100px;
     text-align: center;
     font-weight: 600;
+}
+
+@media (max-width: 950px) {
+    .auth-photo-container {
+        display: none;
+    }
 }
