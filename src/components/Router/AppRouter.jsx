@@ -15,17 +15,17 @@ const AppRouter = () => {
 
     return (
         <Routes>
-            <Route path="/" element={<Layout />}>
+            <Route path="/" element={user ? <Navigate to="auth" /> : <Layout />}>
                 <Route index element={<HomePage />} />
                 <Route path="user-profile" element={<UserPage />} />
                 <Route path="module" element={<ModulePage />} />
                 <Route path="quiz" element={<QuizPage />} />
-                <Route path="user-profile" element={!user ? <Navigate to="/auth" /> : <UserPage />} />
-                <Route path="admin" element={user?.role?.includes("admin") ? <AdminPage /> : <HomePage />} />
+                <Route path="user-profile" element={<UserPage />} />
+                {/* <Route path="admin" element={user?.role?.includes("admin") ? <AdminPage /> : <HomePage />} /> */}
                 <Route path="admin" element={<AdminPage />} />
                 <Route path="*" element={<Navigate to="/" />} />
             </Route>
-            <Route path="auth" element={<AuthPage />} />
+            <Route path="auth" element={!user ? <AuthPage /> : <Navigate to="/" />} />
         </Routes>
     );
 }

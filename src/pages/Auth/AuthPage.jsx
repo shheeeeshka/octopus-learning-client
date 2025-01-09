@@ -10,7 +10,7 @@ const AuthPage = () => {
         <div className={styles["auth-page-container"]}>
             <div className={styles["a-p-window"]}>
                 <h3 style={{ fontWeight: 600 }}>{isLogin ? "Вход" : "Регистрация"}</h3>
-                <div className="d-flex flex-column" style={{ gap: 45 }}>
+                <div className="d-flex flex-column" style={{ gap: 30 }}>
                     {
                         !isLogin && <div className="d-flex flex-wrap justify-content-center flex-wrap" style={{ gap: 20 }}>
                             <div className="d-flex flex-column" style={{}}>
@@ -34,12 +34,12 @@ const AuthPage = () => {
                         </div>
                     </div>
                 </div>
-                <div>
+                <div className="d-flex align-items-center" style={{ width: "100%", justifyContent: "space-around", padding: "0 100px" }}>
                     <span style={{ fontWeight: 600 }}>Уже есть аккаунт? <span
                         style={{ fontWeight: 500, color: "blue", cursor: "pointer" }}
                         onClick={() => setIsLogin(p => !p)}>{!isLogin ? "Вход" : "Регистрация"}</span></span>
 
-                    <span>{isLogin ? "Вход" : "Регистрация"}</span>
+                    <span onClick={() => isLogin ? loginUser() : registerUser()} className={styles["auth-btn"]}>{isLogin ? "Вход" : "Регистрация"}</span>
                 </div>
             </div>
         </div>

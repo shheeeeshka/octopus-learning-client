@@ -19,7 +19,7 @@
 }
 
 .sidebar {
-    min-height: 95%;
+    min-height: 97%;
     width: 260px;
     padding: 45px 0 60px 0;
     box-shadow: 5px 0 10px rgba(220, 220, 220, 0.5);
@@ -28,7 +28,7 @@
     /* justify-content: space-between; */
     align-items: center;
     background: var(--sidebar-bg);
-    gap: 65px;
+    gap: 60px;
     height: 95%;
     border-radius: 10px;
     position: relative;

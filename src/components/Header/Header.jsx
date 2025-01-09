@@ -15,14 +15,16 @@ const Header = () => {
             <div>
                 <input value={searchValue} onChange={e => updateSearchValue(e.target.value)} className={styles["search-input"]} type="text" placeholder="Поиск..." />
             </div>
-            <div className={styles["header-left-wrapper"]}>
+            <div className={styles["header-right-wrapper"]}>
                 <div style={{ cursor: "pointer" }} onClick={() => toggleTheme()}>
                     <Icons size="20" variant={preferedTheme === "dark" ? "sun" : "moon"} />
                 </div>
                 <div style={{ cursor: "pointer" }}>
                     <Icons size="20" variant="bell" />
                 </div>
-                <Link to="user-profile" className={styles["header-avatar"]}></Link>
+                <Link to="user-profile" className={styles["header-avatar"]}>
+                    <img src="/avtr.png" alt="avatar" style={{ width: "100%" }} />
+                </Link>
             </div>
         </header>
     );

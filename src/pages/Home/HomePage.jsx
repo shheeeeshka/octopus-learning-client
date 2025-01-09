@@ -5,6 +5,7 @@ import { EducationContext } from "../../context/EducationContext";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
+import Calendar from "react-calendar";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import Header from "../../components/Header/Header";
 
@@ -13,6 +14,7 @@ const HomePage = () => {
     const { modules, searchValue } = useContext(EducationContext);
 
     const [filteredModules, setFilteredModules] = useState([]);
+    const [selectedDate, setSelectedDate] = useState(new Date());
 
     useEffect(() => {
         if (!searchValue) return setFilteredModules(modules);
@@ -25,16 +27,20 @@ const HomePage = () => {
         setFilteredModules(newFilteredModules);
     }, [modules, searchValue]);
 
+    const handleCalendarDateChange = (newDate) => {
+        setSelectedDate(newDate);
+    };
+
     return (
         <div className={styles["home-page-container"]}>
             <Header />
             <div className={styles["welcome-container"]}>
-                <span>Photo 1</span>
-                <div style={{ width: 400 }}>
-                    <span style={{ fontSize: 20, fontWeight: 500, textAlign: "center" }}>Здравствуйте, {user?.name}</span>
-                    <p style={{ textAlign: "center" }}>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptate, nihil!</p>
+                <img src="/presentation.png" alt="left image" />
+                <div style={{ width: 400, textAlign: "center" }}>
+                    <span style={{ fontSize: 20, fontWeight: 500 }}>Здравствуйте, {user?.name || "Анатолий"}!</span>
+                    <p style={{ textAlign: "center", color: "#99abf3" }}>Наше приложение было создано, чтобы Вы прокачали свои навыки в языке запросов SQL</p>
                 </div>
-                <span>Photo 2</span>
+                <img src="/diagram.png" alt="right image" />
             </div>
             <div className={styles["h-p-modules-wrapper"]}>
                 <ul className={styles["h-p-modules"]}>
@@ -46,15 +52,20 @@ const HomePage = () => {
                     {
                         filteredModules?.map((module, ind) => (
                             <Link to={`module?topic=${module.title}`} key={ind} className={styles["module-card"]}>
-                                <div style={{ border: "0px solid", height: 75, width: 75, padding: 3, position: "relative" }}>
-                                    <img src={module.previewImg} alt="preview" style={{ height: "100%", borderRadius: 15, position: "absolute", left: 0, top: "-50%" }} />
-                                </div>
-                                <div className="d-flex flex-column align-items-center" style={{ gap: 20, padding: "0px 25px 15px 25px" }}>
-                                    <div className="d-flex justify-content-between flex-column" style={{ width: "50%", textAlign: "center" }}>
-                                        <span style={{ fontWeight: 600, fontSize: 15, color: "black" }}>{module.title}</span>
-                                        <span style={{ fontSize: 13, color: "#dadee1" }}>{module.description}</span>
+                                <div style={{ height: 40 }}>
+                                    <div style={{ height: 60, position: "relative", width: 60 }}>
+                                        <img
+                                            src={module.previewImg} alt="preview"
+                                            style={{ borderRadius: 15, width: "100%", position: "absolute", top: "-52%" }}
+                                        />
                                     </div>
-                                    <div style={{ width: "100%", fontSize: 14 }}>
+                                </div>
+                                <div className="d-flex flex-column align-items-center" style={{ gap: 20, padding: "0px 25px 15px 25px", width: "100%" }}>
+                                    <div className="d-flex flex-column" style={{ width: "70%", textAlign: "center", height: "100px", gap: 20 }}>
+                                        <span style={{ fontWeight: 600, fontSize: 17, color: "black" }}>{module.title}</span>
+                                        <span style={{ fontSize: 14, color: "#dadee1" }}>{module.description}</span>
+                                    </div>
+                                    <div className="d-flex flex-column" style={{ width: "100%", fontSize: 14, gap: 10 }}>
                                         <div className="d-flex justify-content-between" style={{ color: "black" }}>
                                             <span>Progress</span>
                                             <span>{75}%</span>
@@ -68,11 +79,14 @@ const HomePage = () => {
                 </ul>
             </div>
             <div className={styles["home-right-sidebar"]}>
-                <div>
-                    <h4>Widget</h4>
+                <div className={styles["achievements-widget"]}>
+                    <h4>Widget Achievements</h4>
                 </div>
                 <div className={styles["calendar-wrapper"]}>
-                    <h4>Calendar</h4>
+                    <Calendar
+                        onChange={() => handleCalendarDateChange()}
+                        value={selectedDate}
+                    />
                 </div>
             </div>
         </div>

@@ -2,9 +2,11 @@ import styles from "./QuizPage.module.css";
 import ProgressBar from "react-bootstrap/ProgressBar";
 
 import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 const QuizPage = () => {
+    const { updateUserStatistics, userStatistics } = useContext(AuthContext);
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const topicName = queryParams.get("topic");
@@ -15,6 +17,7 @@ const QuizPage = () => {
 
     const [correctAnswers, setCorrectAnswers] = useState(0);
     const [totalAnswers, setTotalAnswers] = useState(0);
+    const [elapsedTime, setElapsedTime] = useState(0);
 
     const [test, setTest] = useState({
         type: "",
@@ -171,6 +174,17 @@ const QuizPage = () => {
     });
 
     useEffect(() => {
+        const interval = setInterval(() => {
+            setElapsedTime(prevTime => prevTime + 1);
+        }, 1000);
+
+
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
+
+    useEffect(() => {
         setNow(Math.round((correctAnswers / totalAnswers) * 100));
         // setNow(Math.round(((questionIndex + 1) / test["q"].length) * 100));
     }, [correctAnswers, totalAnswers]);
@@ -194,11 +208,18 @@ const QuizPage = () => {
             return p;
         });
         const isCorrectAnswer = test?.q[questionIndex].answers?.every((ans) => (!ans.isCorrect && !ans.isChecked) || (ans.isCorrect && ans.isChecked));
-        if (isCorrectAnswer) setCorrectAnswers(p => p + 1);
+        if (isCorrectAnswer && !move) {
+            updateUserStatistics({ correctAnswersCount: 1 });
+            setCorrectAnswers(p => p + 1);
+        };
+        if (test["q"].length === questionIndex + 1) {
+            updateUserStatistics({ coveredTopicsCount: 1 });
+            setTotalAnswers(p => p + 1);
+            return setShowTestResults(true);
+        }
+        if (move) return setQuestionIndex(p => p + 1);
         setTotalAnswers(p => p + 1);
-        if (test["q"].length === questionIndex + 1) return setShowTestResults(true);
-        if (!move) return;
-        setQuestionIndex(p => p + 1);
+        updateUserStatistics({ totalAnswersCount: 1 });
     };
 
     const handleAnswer = (i) => {
@@ -220,18 +241,20 @@ const QuizPage = () => {
         <div className={styles["quiz-page-container"]}>
             <div className={styles["t-p-window"]}>
                 <div className={styles["t-p-window-head"]}>
-                    <h3>{topicName}</h3>
-                    <div style={{ width: "50%" }}>
+                    <div>
+                        <h3 style={{ fontSize: "1.7rem" }}>{topicName}</h3>
+                    </div>
+                    <div style={{ width: "40%", height: "1.6rem" }}>
                         <ProgressBar
                             now={now}
                             label={`${now}%`}
-                            style={{ height: 20, borderRadius: 10 }}
+                            style={{ height: 18, borderRadius: 10 }}
                             variant={now > 70 ? "success" : (now > 49 ? "warning" : "danger")}
                         />
                     </div>
                 </div>
                 <div className={styles["quiz-main-content"]}>
-                    <span style={{ textAlign: "center" }}>{test["q"][questionIndex].question || "Подгружаем материалы..."}</span>
+                    <span className={styles["question-span"]}>{test["q"][questionIndex].question || "Подгружаем материалы..."}</span>
                     <ul className={styles["answers-block"]}>
                         {
                             test["q"][questionIndex].answers?.map((ans, ind) => (

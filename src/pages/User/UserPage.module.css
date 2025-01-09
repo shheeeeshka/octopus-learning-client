@@ -17,7 +17,7 @@
 .photo-wrapper {
     height: 200px;
     width: 200px;
-    background: aliceblue;
+    background: linear-gradient(185deg, #e4c4df, #c59ee9);
     border-radius: 12px;
     padding: 7px;
 }

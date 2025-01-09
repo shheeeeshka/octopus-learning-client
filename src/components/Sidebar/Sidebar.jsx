@@ -12,13 +12,13 @@ const Sidebar = ({ isMenuOpened, setIsMenuOpened }) => {
         <div className={styles["sidebar-wrapper"] + `${isMenuOpened ? " " + styles["sidebar-active"] : ""}` + " " + "no-select"}>
             <div className={styles["sidebar"]}>
                 <div className="d-flex align-items-center" style={{ gap: "10px" }}>
-                    <img src="/logo.png" alt="logo" style={{ height: 40 }} />
-                    <span style={{ fontWeight: 900, fontSize: 22 }}>SkillSet</span>
+                    <img src="/logo-octopus.png" alt="logo" style={{ height: 50 }} />
+                    <span style={{ fontWeight: 900, fontSize: 22 }}>Octopus</span>
                 </div>
 
                 <Link to="user-profile" className="d-flex align-items-center flex-column" style={{ gap: "10px" }}>
-                    <span style={{ cursor: "pointer", height: 75, width: 75, borderRadius: 40, background: "#c7a6f3" }}></span>
-                    <span style={{ fontWeight: 600, fontSize: 20, cursor: "pointer" }}>{user?.name || "Анатолий"} {user?.surname[0] || "В"}.</span>
+                    <img src="/avtr.png" alt="avatar" style={{ cursor: "pointer", height: 95, width: 95, borderRadius: 60, background: "linear-gradient(185deg, #e4c4df, #c59ee9)" }} />
+                    <span style={{ fontWeight: 600, fontSize: 20, cursor: "pointer" }}>{user?.name || "Анатолий"} {user?.surname?.slice(0, 1) || "В"}.</span>
                 </Link>
 
                 <ul className={styles["nav-list"]}>

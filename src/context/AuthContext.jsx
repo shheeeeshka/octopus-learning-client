@@ -1,10 +1,12 @@
 import { createContext, useCallback, useEffect, useState } from "react";
 import AuthService from "../services/AuthService";
+import UserService from "../services/UserService";
 
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("user")) || null);
+    const [userStatistics, setUserStatistics] = useState(() => JSON.parse(localStorage.getItem("user-statistics")) || null);
     const [isAuthLoading, setIsAuthLoading] = useState(false);
     const [authError, setAuthError] = useState(null);
     const [authInfo, setAuthInfo] = useState({
@@ -31,35 +33,40 @@ export const AuthContextProvider = ({ children }) => {
                 ...prevAuthInfo,
                 ...updatedAuthInfo
             };
-            console.log(newAuthInfo); // Логируем новое состояние
             return newAuthInfo;
         });
     }, []);
 
-    const registerUser = useCallback(() => {
-        setIsAuthLoading(true);
-        AuthService.registration(authInfo)
-            .then((response) => console.log(response))
-            .then((data) => {
-                localStorage.setItem("token", JSON.stringify(data.accessToken));
-                localStorage.setItem("user", JSON.stringify(data.user));
-                setUser(data.user);
-            })
-            .catch((err) => setAuthError(err.message))
-            .finally(() => setIsAuthLoading(false));
+    const registerUser = useCallback(async () => {
+        try {
+            setIsAuthLoading(true);
+            const { data } = await AuthService.registration(authInfo);
+            localStorage.setItem("token", JSON.stringify(data.accessToken));
+            localStorage.setItem("user", JSON.stringify(data.user));
+            localStorage.setItem("user-statistics", JSON.stringify(data.userStatistics));
+            setUser(data.user);
+        } catch (err) {
+            setAuthError(err.message);
+            console.error(err);
+        } finally {
+            setIsAuthLoading(false);
+        }
     }, [authInfo]);
 
-    const loginUser = useCallback(() => {
-        setIsAuthLoading(true);
-        AuthService.login(authInfo)
-            .then((response) => console.log(response))
-            .then((data) => {
-                localStorage.setItem("token", JSON.stringify(data.accessToken));
-                localStorage.setItem("user", JSON.stringify(data.user));
-                setUser(data.user);
-            })
-            .catch((err) => setAuthError(err.message))
-            .finally(() => setIsAuthLoading(false));
+    const loginUser = useCallback(async () => {
+        try {
+            setIsAuthLoading(true);
+            const { data } = await AuthService.login(authInfo);
+            localStorage.setItem("token", JSON.stringify(data.accessToken));
+            localStorage.setItem("user", JSON.stringify(data.user));
+            localStorage.setItem("user-statistics", JSON.stringify(data.userStatistics));
+            setUser(data.user);
+        } catch (err) {
+            setAuthError(err.message);
+            console.error(err);
+        } finally {
+            setIsAuthLoading(false);
+        }
     }, [authInfo]);
 
     const logoutUser = useCallback(() => {
@@ -88,8 +95,25 @@ export const AuthContextProvider = ({ children }) => {
             .finally(() => setIsAuthLoading(false));
     }, []);
 
+    const updateUserStatistics = useCallback(async (newStatistics) => {
+        try {
+            setIsAuthLoading(true);
+            const { data } = await UserService.updateUserStatistics({ ...newStatistics, userId: user?._id, topicId: "2gj29gj2" });
+            localStorage.setItem("user-statistics", JSON.stringify(data));
+            setUserStatistics(data);
+            console.log(data);
+        } catch (err) {
+            setAuthError(err.message);
+            console.error(err);
+        } finally {
+            setIsAuthLoading(false);
+        }
+    }, [user?._id]);
+
     return <AuthContext.Provider
         value={{
+            updateUserStatistics,
+            userStatistics,
             preferedTheme,
             toggleTheme,
             user,
