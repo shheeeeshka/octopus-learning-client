@@ -5,9 +5,10 @@ import { AuthContext } from "../../context/AuthContext";
 
 import Icons from "../../Icons/Icons";
 import ProgressBar from "react-bootstrap/ProgressBar";
+import { API_URL } from "../../utils/constants";
 
 const UserPage = () => {
-    const { user, userStatistics } = useContext(AuthContext);
+    const { user, userStatistics, userAchievements } = useContext(AuthContext);
     const now = 60;
 
     return (
@@ -29,7 +30,7 @@ const UserPage = () => {
                         <div className="d-flex flex-wrap justify-content-center" style={{ gap: 30 }}>
                             <div className="d-flex align-items-center" style={{ gap: 20, width: 220 }}>
                                 <div className={styles["st-icon-wrapper"]}>
-                                    <Icons variant="support" />
+                                    <Icons variant="book" size="20" />
                                 </div>
                                 <div className="d-flex flex-column">
                                     <span style={{ fontWeight: 700, fontSize: 22 }}>{userStatistics?.coveredTopicsCount || 0}</span>
@@ -38,7 +39,7 @@ const UserPage = () => {
                             </div>
                             <div className="d-flex align-items-center" style={{ gap: 20, width: 220 }}>
                                 <div className={styles["st-icon-wrapper"]}>
-                                    <Icons variant="support" />
+                                    <Icons variant="alarm" size="20" />
                                 </div>
                                 <div className="d-flex flex-column">
                                     <span style={{ fontWeight: 700, fontSize: 22 }}>{userStatistics?.bestTime || "0 мин"}</span>
@@ -47,7 +48,7 @@ const UserPage = () => {
                             </div>
                             <div className="d-flex align-items-center" style={{ gap: 20, width: 220 }}>
                                 <div className={styles["st-icon-wrapper"]}>
-                                    <Icons variant="support" />
+                                    <Icons variant="bar-chart" size="20" />
                                 </div>
                                 <div className="d-flex flex-column">
                                     <span style={{ fontWeight: 700, fontSize: 22 }}>{userStatistics?.totalAnswersCount || 0}</span>
@@ -56,7 +57,7 @@ const UserPage = () => {
                             </div>
                             <div className="d-flex align-items-center" style={{ gap: 20, width: 220 }}>
                                 <div className={styles["st-icon-wrapper"]}>
-                                    <Icons variant="support" />
+                                    <Icons variant="check-circle" size="20" />
                                 </div>
                                 <div className="d-flex flex-column">
                                     <span style={{ fontWeight: 700, fontSize: 22 }}>{userStatistics?.correctAnswersCount || 0}</span>
@@ -67,8 +68,17 @@ const UserPage = () => {
                     </div>
                 </div>
             </div>
-            <div>
-                <h1>Achievements</h1>
+            <div className={styles["achievements-container"]}>
+                <ul className={styles["achievements-list"]}>
+                    {
+                        userAchievements?.map((ach, ind) => (
+                            <li className={styles["achievement-list-item"]} key={ind}>
+                                <img src={API_URL + "/" + ach.img} alt="achievement" />
+                                <span>{ach.title}</span>
+                            </li>
+                        ))
+                    }
+                </ul>
             </div>
         </div>
     );

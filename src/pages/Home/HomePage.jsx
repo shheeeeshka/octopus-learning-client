@@ -11,7 +11,7 @@ import Header from "../../components/Header/Header";
 
 const HomePage = () => {
     const { user } = useContext(AuthContext);
-    const { modules, searchValue } = useContext(EducationContext);
+    const { modules, searchValue, isEducationLoading } = useContext(EducationContext);
 
     const [filteredModules, setFilteredModules] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -35,18 +35,23 @@ const HomePage = () => {
         <div className={styles["home-page-container"]}>
             <Header />
             <div className={styles["welcome-container"]}>
-                <img src="/presentation.png" alt="left image" />
+                <img src="/photo-banner-2.png" alt="left image" style={{ height: 200 }} />
                 <div style={{ width: 400, textAlign: "center" }}>
                     <span style={{ fontSize: 20, fontWeight: 500 }}>Здравствуйте, {user?.name || "Анатолий"}!</span>
                     <p style={{ textAlign: "center", color: "#99abf3" }}>Наше приложение было создано, чтобы Вы прокачали свои навыки в языке запросов SQL</p>
                 </div>
-                <img src="/diagram.png" alt="right image" />
+                <img src="/photo-banner-1.png" alt="right image" style={{ height: 200 }} />
             </div>
             <div className={styles["h-p-modules-wrapper"]}>
                 <ul className={styles["h-p-modules"]}>
                     {
-                        (Array.isArray(filteredModules) && filteredModules?.length < 1) && <div>
+                        (!isEducationLoading && Array.isArray(filteredModules) && filteredModules?.length < 1) && <div>
                             <h3>Урок не найден :(</h3>
+                        </div>
+                    }
+                    {
+                        isEducationLoading && <div>
+                            <h3>Подгружаем уроки для Вас</h3>
                         </div>
                     }
                     {
@@ -67,7 +72,7 @@ const HomePage = () => {
                                     </div>
                                     <div className="d-flex flex-column" style={{ width: "100%", fontSize: 14, gap: 10 }}>
                                         <div className="d-flex justify-content-between" style={{ color: "black" }}>
-                                            <span>Progress</span>
+                                            <span>Пройдено</span>
                                             <span>{75}%</span>
                                         </div>
                                         <ProgressBar variant="success" now={75} style={{ height: 10 }} />
@@ -80,7 +85,18 @@ const HomePage = () => {
             </div>
             <div className={styles["home-right-sidebar"]}>
                 <div className={styles["achievements-widget"]}>
-                    <h4>Widget Achievements</h4>
+                    <div className={styles["achievement-wrapper"]}>
+                        <div style={{ height: 75, width: 75 }}>
+                            <img src="/achievement-1.png" alt="" style={{ height: "100%" }} />
+                        </div>
+                        <span style={{ fontSize: 18, fontWeight: 600 }}>{"Ворота открыты"}</span>
+                    </div>
+                    <div className={styles["achievement-wrapper"]}>
+                        <div style={{ height: 75, width: 75 }}>
+                            <img src="/achievement-2.png" alt="" style={{ height: "100%" }} />
+                        </div>
+                        <span style={{ fontSize: 18, fontWeight: 600 }}>{"Успешный старт"}</span>
+                    </div>
                 </div>
                 <div className={styles["calendar-wrapper"]}>
                     <Calendar

@@ -7,6 +7,40 @@ export const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
     const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("user")) || null);
     const [userStatistics, setUserStatistics] = useState(() => JSON.parse(localStorage.getItem("user-statistics")) || null);
+    const [userAchievements, setUserAchievements] = useState(() => JSON.parse(localStorage.getItem("user-achievements")) || [
+        {
+            title: "Ворота открыты",
+            img: "achievement-1.png",
+        },
+        {
+            title: "10 верных ответов",
+            img: "achievement-1.png",
+        },
+        {
+            title: "Ворота открыты",
+            img: "achievement-2.png",
+        },
+        {
+            title: "10 верных ответов",
+            img: "achievement-4.png",
+        },
+        {
+            title: "Ворота открыты",
+            img: "achievement-1.png",
+        },
+        {
+            title: "10 верных ответов",
+            img: "achievement-1.png",
+        },
+        {
+            title: "Ворота открыты",
+            img: "achievement-4.png",
+        },
+        {
+            title: "10 верных ответов",
+            img: "achievement-3.png",
+        },
+    ]);
     const [isAuthLoading, setIsAuthLoading] = useState(false);
     const [authError, setAuthError] = useState(null);
     const [authInfo, setAuthInfo] = useState({
@@ -44,7 +78,9 @@ export const AuthContextProvider = ({ children }) => {
             localStorage.setItem("token", JSON.stringify(data.accessToken));
             localStorage.setItem("user", JSON.stringify(data.user));
             localStorage.setItem("user-statistics", JSON.stringify(data.userStatistics));
+            localStorage.setItem("user-achievements", JSON.stringify([...userAchievements, data.newUserAchievement]));
             setUser(data.user);
+            setUserAchievements(p => [...p, data.newUserAchievement]);
         } catch (err) {
             setAuthError(err.message);
             console.error(err);
@@ -59,8 +95,9 @@ export const AuthContextProvider = ({ children }) => {
             const { data } = await AuthService.login(authInfo);
             localStorage.setItem("token", JSON.stringify(data.accessToken));
             localStorage.setItem("user", JSON.stringify(data.user));
-            localStorage.setItem("user-statistics", JSON.stringify(data.userStatistics));
+            localStorage.setItem("user-achievements", JSON.stringify(data.userAchievements));
             setUser(data.user);
+            setUserAchievements(data.userAchievements);
         } catch (err) {
             setAuthError(err.message);
             console.error(err);
@@ -90,6 +127,8 @@ export const AuthContextProvider = ({ children }) => {
                 localStorage.setItem("token", JSON.stringify(data.accessToken));
                 localStorage.setItem("user", JSON.stringify(data.user));
                 setUser(data.user);
+                setUserAchievements(data.userAchievements);
+                localStorage.setItem("user-achievements", JSON.stringify(data.userAchievements));
             })
             .catch((err) => setAuthError(err.message))
             .finally(() => setIsAuthLoading(false));
@@ -100,7 +139,11 @@ export const AuthContextProvider = ({ children }) => {
             setIsAuthLoading(true);
             const { data } = await UserService.updateUserStatistics({ ...newStatistics, userId: user?._id, topicId: "2gj29gj2" });
             localStorage.setItem("user-statistics", JSON.stringify(data));
-            setUserStatistics(data);
+            setUserStatistics(data.updatedStatistics);
+            if (data.newUserAchievement) {
+                setUserAchievements(data.newUserAchievement);
+                localStorage.setItem("user-achievements", JSON.stringify([...userAchievements, data.newUserAchievement]));
+            }
             console.log(data);
         } catch (err) {
             setAuthError(err.message);
@@ -108,10 +151,11 @@ export const AuthContextProvider = ({ children }) => {
         } finally {
             setIsAuthLoading(false);
         }
-    }, [user?._id]);
+    }, [user?._id, userAchievements]);
 
     return <AuthContext.Provider
         value={{
+            userAchievements,
             updateUserStatistics,
             userStatistics,
             preferedTheme,

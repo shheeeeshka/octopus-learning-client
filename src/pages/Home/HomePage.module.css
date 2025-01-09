@@ -70,7 +70,11 @@
 .achievements-widget {
     background: #fff;
     border-radius: 15px;
-    height: 150px;
+    height: 200px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .calendar-wrapper {
@@ -81,6 +85,16 @@
     height: 35px;
     background: #8977c3 !important;
     border-radius: 50px;
+}
+
+.achievement-wrapper {
+    height: 50%;
+    display: flex;
+    align-items: center;
+    background: aliceblue;
+    border-radius: 15px;
+    padding: 0 15px;
+    gap: 30px;
 }
 
 @media (max-width: 1000px) {

@@ -1,7 +1,7 @@
 import styles from "./QuizPage.module.css";
 import ProgressBar from "react-bootstrap/ProgressBar";
 
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -273,19 +273,29 @@ const QuizPage = () => {
                     <div className={styles["t-p-window-bottom-btn"] + " no-select"} onClick={() => handleGoToNextQuestion()}><span>{test?.q?.length - 1 === questionIndex ? "Завершить" : (test?.q[questionIndex].answers?.some(ans => ans["displayCorrectAnswers"]) ? "Далее" : "Проверить")}</span></div>
                 </div>
             </div>
+            <img src="/photo_518863.png" alt="robot" className={styles["auth-bg-robot"]} />
             {
                 showTestResults && <div className={styles["quiz-results-modal"]}>
-                    <div style={{ position: "relative" }}>
+                    <div style={{ position: "relative", height: "100%", width: "100%" }}>
                         <span style={{ position: "absolute", cursor: "pointer", right: 25, top: 10 }} onClick={() => setShowTestResults(false)}>X</span>
                     </div>
-                    <div style={{ position: "absolute", top: 40, left: 40 }}>
-                        <h3>Результаты теста : {correctAnswers} / {totalAnswers}</h3>
-                        <ProgressBar
-                            now={now}
-                            label={`${now}%`}
-                            style={{ height: 20, borderRadius: 10 }}
-                            variant={now > 70 ? "success" : (now > 49 ? "warning" : "danger")}
-                        />
+                    <div className={styles["quiz-info-wrapper"]}>
+                        <div className="d-flex flex-column" style={{ gap: 15 }}>
+                            <h3>Результаты теста : {correctAnswers} / {totalAnswers}</h3>
+                            <ProgressBar
+                                now={now}
+                                label={`${now}%`}
+                                style={{ height: 20, borderRadius: 10 }}
+                                variant={now > 70 ? "success" : (now > 49 ? "warning" : "danger")}
+                            />
+                        </div>
+                        <h4 style={{ fontWeight: 700, fontSize: 20, marginTop: 45 }}>Вы успешно прошли тест!</h4>
+                        <div className={styles["imgg-robot-test-results"]}>
+                            <img src="/photo_518862.png" alt="robot" style={{ height: "100%" }} />
+                        </div>
+                        <div>
+                            <Link to="/" style={{ textAlign: "center", border: "1px solid", borderRadius: 15, padding: 10 }}>На главную</Link>
+                        </div>
                     </div>
                 </div>
             }

@@ -38,6 +38,33 @@
     align-items: center;
 }
 
+.achievements-container {
+    padding-top: 120px;
+    /* border: 1px solid; */
+    /* height: 600px; */
+}
+
+.achievements-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.achievement-list-item {
+    border: 1px solid saddlebrown;
+    width: 300px;
+    border-radius: 15px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+}
+
+.achievement-list-item>img {
+    height: 80px;
+    width: 80px;
+}
+
 @media (max-width: 1200px) {
     .user-page-container {
         width: auto !important;
@@ -45,6 +72,10 @@
 }
 
 @media (max-width: 510px) {
+    .achievements-container {
+        padding-top: 20px;
+    }
+
     .photo-wrapper {
         border-radius: 60%;
     }
