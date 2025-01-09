@@ -17,7 +17,7 @@ const HomePage = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
 
     useEffect(() => {
-        if (!searchValue) return setFilteredModules(modules);
+        if (!searchValue && modules && modules?.length) return setFilteredModules(modules);
         const newFilteredModules = modules?.filter((m) => {
             const title = m.title?.toLowerCase();
             const description = m.description?.toLowerCase();
@@ -45,12 +45,12 @@ const HomePage = () => {
             <div className={styles["h-p-modules-wrapper"]}>
                 <ul className={styles["h-p-modules"]}>
                     {
-                        filteredModules?.length < 1 && <div>
+                        (Array.isArray(filteredModules) && filteredModules?.length < 1) && <div>
                             <h3>Урок не найден :(</h3>
                         </div>
                     }
                     {
-                        filteredModules?.map((module, ind) => (
+                        (Array.isArray(filteredModules) && filteredModules?.length > 0) && filteredModules?.map((module, ind) => (
                             <Link to={`module?topic=${module.title}`} key={ind} className={styles["module-card"]}>
                                 <div style={{ height: 40 }}>
                                     <div style={{ height: 60, position: "relative", width: 60 }}>
