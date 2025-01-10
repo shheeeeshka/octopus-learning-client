@@ -15,6 +15,7 @@ const HomePage = () => {
 
     const [filteredModules, setFilteredModules] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const previewImgBgColors = ["#ababe3", "#b7eaf5", "#f5ccb7", "#f5b7b7", "#b7f5bd", "#d2b7f5", "#f5b7b7"];
 
     useEffect(() => {
         if (!searchValue && modules && modules?.length) return setFilteredModules(modules);
@@ -59,11 +60,15 @@ const HomePage = () => {
                             (Array.isArray(filteredModules) && filteredModules?.length > 0) && filteredModules?.map((module, ind) => (
                                 <Link to={`module?topic=${module.title}`} key={ind} className={styles["module-card"]}>
                                     <div style={{ height: 40 }}>
-                                        <div style={{ height: 60, position: "relative", width: 60 }}>
-                                            <img
-                                                src={module.previewImg} alt="preview"
-                                                style={{ borderRadius: 15, width: "100%", position: "absolute", top: "-52%" }}
-                                            />
+                                        <div style={{ height: 65, position: "relative", width: 65 }}>
+                                            <div
+                                                className="d-flex justify-content-center align-items-center"
+                                                style={{ borderRadius: 15, width: "100%", height: "100%", position: "absolute", top: "-52%", background: previewImgBgColors[ind % previewImgBgColors.length] }}>
+                                                <img
+                                                    src={module.previewImg} alt="preview"
+                                                    style={{ borderRadius: 15, width: "100", height: "100%" }}
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="d-flex flex-column align-items-center" style={{ gap: 20, padding: "0px 25px 15px 25px", width: "100%" }}>

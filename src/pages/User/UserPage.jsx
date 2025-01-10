@@ -6,6 +6,7 @@ import { AuthContext } from "../../context/AuthContext";
 import Icons from "../../Icons/Icons";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { API_URL } from "../../utils/constants";
+import { Link } from "react-router-dom";
 
 const UserPage = () => {
     const { user, userStatistics, userAchievements } = useContext(AuthContext);
@@ -14,7 +15,11 @@ const UserPage = () => {
     return (
         <div className={styles["user-page-container"] + " " + "no-select"}>
             <div className={styles["user-header"]}>
-                <h1>Friends</h1>
+                <Link to="/friends" className="d-flex" style={{ position: "relative", width: 100, height: "auto" }}>
+                    <div className={styles["friend-icon"]}></div>
+                    <div className={styles["friend-icon"]}></div>
+                    <div className={styles["friend-icon"]}></div>
+                </Link>
             </div>
             <div className={styles["user-card"]}>
                 <div className={styles["photo-wrapper"]}>
