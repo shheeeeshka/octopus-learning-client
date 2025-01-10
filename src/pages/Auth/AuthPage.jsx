@@ -1,9 +1,11 @@
-import { useContext, useState } from "react";
 import styles from "./AuthPage.module.css";
+
+import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import Spinner from "react-bootstrap/Spinner";
 
 const AuthPage = () => {
-    const { updateAuthInfo, authInfo, registerUser, loginUser } = useContext(AuthContext);
+    const { updateAuthInfo, authInfo, registerUser, loginUser, isAuthLoading } = useContext(AuthContext);
     const [isLogin, setIsLogin] = useState(false);
 
     return (
@@ -35,10 +37,11 @@ const AuthPage = () => {
                     </div>
                 </div>
                 <div className="d-flex align-items-center flex-column" style={{ width: "100%", justifyContent: "space-around", padding: "0 100px", gap: 10 }}>
-                    <span onClick={() => isLogin ? loginUser() : registerUser()} className={styles["auth-btn"]}>{isLogin ? "Вход" : "Регистрация"}</span>
+                    <span onClick={() => isLogin ? loginUser() : registerUser()} className={styles["auth-btn"]}>{!isAuthLoading ? (isLogin ? "Вход" : "Регистрация") : <Spinner size="sm" />}</span>
                     <span style={{ fontWeight: 600 }}>Уже есть аккаунт? <span
                         style={{ fontWeight: 500, color: "blue", cursor: "pointer" }}
-                        onClick={() => setIsLogin(p => !p)}>{!isLogin ? "Вход" : "Регистрация"}</span></span>
+                        onClick={() => setIsLogin(p => !p)}>{!isLogin ? "Вход" : "Регистрация"}</span>
+                    </span>
                 </div>
             </div>
             <div className={styles["auth-photo-container"]}>

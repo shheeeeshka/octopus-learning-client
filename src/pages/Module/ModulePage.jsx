@@ -1,16 +1,24 @@
 import styles from "./ModulePage.module.css";
 
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { EducationContext } from "../../context/EducationContext";
 import Header from "../../components/Header/Header";
 
 const ModulePage = () => {
-    const { selectedTopicContent, searchValue } = useContext(EducationContext);
+    const { searchValue, modules, fetchTest } = useContext(EducationContext);
+    const [pageContent, setPageContent] = useState("");
+    const [selectedModule, setSelectedModule] = useState(null);
 
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const topicName = queryParams.get("topic");
+
+    useEffect(() => {
+        const content = modules?.filter(module => module.title === topicName);
+        setPageContent(content[0]?.content);
+        setSelectedModule(content[0]);
+    }, [modules, topicName]);
 
     function highlightText(content, search) {
         if (!search) return content;
@@ -23,8 +31,8 @@ const ModulePage = () => {
             <Header />
             <div className={styles["module-window"]}>
                 <h1>{topicName}</h1>
-                <div className={styles["module-content"]} dangerouslySetInnerHTML={{ __html: highlightText(selectedTopicContent, searchValue) }}></div>
-                <Link to={`/quiz?topic=${topicName}`} className={styles["open-test-button"]}>Пройти тест</Link>
+                <div className={styles["module-content"]} dangerouslySetInnerHTML={{ __html: highlightText(pageContent, searchValue) }}></div>
+                <Link onClick={() => fetchTest(selectedModule?._id)} to={`/quiz?topic=${topicName}`} className={styles["open-test-button"]}>Пройти тест</Link>
             </div>
         </div>
     );

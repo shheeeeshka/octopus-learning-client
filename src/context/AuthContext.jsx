@@ -108,10 +108,16 @@ export const AuthContextProvider = ({ children }) => {
         try {
             setIsAuthLoading(true);
             const { data } = await UserService.updateUserStatistics({ ...newStatistics, userId: user?._id, topicId: "2gj29gj2" });
-            localStorage.setItem("user-statistics", JSON.stringify(data));
+            localStorage.setItem("user-statistics", JSON.stringify(data.updatedStatistics));
             setUserStatistics(data.updatedStatistics);
             if (data.newUserAchievement) {
-                setUserAchievements(p => [...p, data.newUserAchievement]);
+                setUserAchievements(p => {
+                    const previousUserAch = p;
+
+                    const updatedAchievements = [...previousUserAch, data.newUserAchievement].filter((achievement, index, self) => index === self.findIndex((a) => a.title === achievement.title));
+
+                    return updatedAchievements;
+                });
                 localStorage.setItem("user-achievements", JSON.stringify([...userAchievements, data.newUserAchievement]));
             }
             console.log(data);

@@ -8,6 +8,7 @@ import { AuthContext } from "../../context/AuthContext";
 import Calendar from "react-calendar";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import Header from "../../components/Header/Header";
+import { API_URL } from "../../utils/constants";
 
 const HomePage = () => {
     const { user } = useContext(AuthContext);
@@ -65,7 +66,7 @@ const HomePage = () => {
                                                 className="d-flex justify-content-center align-items-center"
                                                 style={{ borderRadius: 15, width: "100%", height: "100%", position: "absolute", top: "-52%", background: previewImgBgColors[ind % previewImgBgColors.length] }}>
                                                 <img
-                                                    src={module.previewImg} alt="preview"
+                                                    src={API_URL + "/" + module.previewImg} alt="preview"
                                                     style={{ borderRadius: 15, width: "100", height: "100%" }}
                                                 />
                                             </div>
