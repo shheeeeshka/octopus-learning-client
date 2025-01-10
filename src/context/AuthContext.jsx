@@ -7,40 +7,7 @@ export const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
     const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("user")) || null);
     const [userStatistics, setUserStatistics] = useState(() => JSON.parse(localStorage.getItem("user-statistics")) || null);
-    const [userAchievements, setUserAchievements] = useState(() => JSON.parse(localStorage.getItem("user-achievements")) || [
-        {
-            title: "Ворота открыты",
-            img: "achievement-1.png",
-        },
-        {
-            title: "10 верных ответов",
-            img: "achievement-1.png",
-        },
-        {
-            title: "Ворота открыты",
-            img: "achievement-2.png",
-        },
-        {
-            title: "10 верных ответов",
-            img: "achievement-4.png",
-        },
-        {
-            title: "Ворота открыты",
-            img: "achievement-1.png",
-        },
-        {
-            title: "10 верных ответов",
-            img: "achievement-1.png",
-        },
-        {
-            title: "Ворота открыты",
-            img: "achievement-4.png",
-        },
-        {
-            title: "10 верных ответов",
-            img: "achievement-3.png",
-        },
-    ]);
+    const [userAchievements, setUserAchievements] = useState(() => JSON.parse(localStorage.getItem("user-achievements")) || []);
     const [isAuthLoading, setIsAuthLoading] = useState(false);
     const [authError, setAuthError] = useState(null);
     const [authInfo, setAuthInfo] = useState({
@@ -144,7 +111,7 @@ export const AuthContextProvider = ({ children }) => {
             localStorage.setItem("user-statistics", JSON.stringify(data));
             setUserStatistics(data.updatedStatistics);
             if (data.newUserAchievement) {
-                setUserAchievements(data.newUserAchievement);
+                setUserAchievements(p => [...p, data.newUserAchievement]);
                 localStorage.setItem("user-achievements", JSON.stringify([...userAchievements, data.newUserAchievement]));
             }
             console.log(data);

@@ -16,9 +16,15 @@ const UserPage = () => {
         <div className={styles["user-page-container"] + " " + "no-select"}>
             <div className={styles["user-header"]}>
                 <Link to="/friends" className="d-flex" style={{ position: "relative", width: 100, height: "auto" }}>
-                    <div className={styles["friend-icon"]}></div>
-                    <div className={styles["friend-icon"]}></div>
-                    <div className={styles["friend-icon"]}></div>
+                    <div className={styles["friend-icon"]}>
+                        <img src="/avtr.png" alt="friend" style={{ height: "90%", width: "90%" }} />
+                    </div>
+                    <div className={styles["friend-icon"]}>
+                        <img src="/avtr.png" alt="friend" style={{ height: "90%", width: "90%" }} />
+                    </div>
+                    <div className={styles["friend-icon"]}>
+                        <img src="/avtr.png" alt="friend" style={{ height: "90%", width: "90%" }} />
+                    </div>
                 </Link>
             </div>
             <div className={styles["user-card"]}>

@@ -41,13 +41,13 @@ export const EducationContextProvider = ({ children }) => {
             "title": "SQL для аналитиков",
             "description": "Анализ данных с помощью SQL-запросов.",
             "createdAt": "01.01.25",
-            "previewImg": "/lessons_preview/icon8.png",
+            "previewImg": "/lessons_preview/iconwhite1.png",
         },
         {
             "title": "Интеграция SQL",
             "description": "Связывание SQL с другими языками.",
             "createdAt": "01.01.25",
-            "previewImg": "/lessons_preview/icon7.png",
+            "previewImg": "/lessons_preview/iconwhite2.png",
         },
     ]);
     const [isEducationLoading, setIsEducationLoading] = useState(false);

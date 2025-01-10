@@ -69,19 +69,22 @@
 .friend-icon {
     height: 50px;
     width: 50px;
-    background: blue;
+    background: #c0e635;
     border-radius: 50%;
     position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .friend-icon:nth-of-type(2) {
     left: 25%;
-    background: red;
+    background: #f19393;
 }
 
 .friend-icon:nth-of-type(3) {
     left: 50%;
-    background: yellow;
+    background: #43ffa2;
 }
 
 @media (max-width: 1200px) {

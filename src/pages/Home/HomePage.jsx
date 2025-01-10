@@ -15,7 +15,7 @@ const HomePage = () => {
 
     const [filteredModules, setFilteredModules] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const previewImgBgColors = ["#ababe3", "#b7eaf5", "#f5ccb7", "#f5b7b7", "#b7f5bd", "#d2b7f5", "#f5b7b7"];
+    const previewImgBgColors = ["#e09c62", "#1ec85b", "#d46866", "#65a9d9", "#c563da", "#4f61ec", "#8a63f4", "#8c7146", "#e5b600"];
 
     useEffect(() => {
         if (!searchValue && modules && modules?.length) return setFilteredModules(modules);
