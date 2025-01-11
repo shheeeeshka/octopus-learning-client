@@ -28,7 +28,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 700px;
+    min-height: 700px;
+    overflow: auto;
+    padding: 10px 0;
 }
 
 .module-nav-block {

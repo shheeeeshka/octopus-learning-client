@@ -8,7 +8,7 @@ import Header from "../../components/Header/Header";
 const ModulePage = () => {
     const { searchValue, modules, fetchTest } = useContext(EducationContext);
     const [pageContent, setPageContent] = useState("");
-    const [selectedModule, setSelectedModule] = useState(null);
+    const [selectedModule, setSelectedModule] = useState({});
 
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -21,6 +21,8 @@ const ModulePage = () => {
     }, [modules, moduleId]);
 
     function highlightText(content, search) {
+        console.log(content);
+        if (!content) return <div></div>;
         if (!search) return content;
         const regex = new RegExp(`(${search})`, 'gi');
         return content.replace(regex, '<span style="background-color: yellow;">$1</span>');
@@ -36,7 +38,7 @@ const ModulePage = () => {
                     <Link onClick={() => fetchTest(moduleId)} to={`/quiz?module=${moduleId}`} className={styles["open-test-button"]}>Пройти тест</Link>
                 </div>
                 <div className={styles["module-nav-wrapper"]}>
-                    <div className="d-flex flex-column" style={{ gap: 20 }}>
+                    <div className="d-flex flex-column" style={{ gap: 20, height: "90%" }}>
                         {
                             modules?.map((module, moduleIndex) => (
                                 <NavLink
