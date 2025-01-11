@@ -7,50 +7,7 @@ export const EducationContext = createContext();
 export const EducationContextProvider = ({ children }) => {
     const [test, setTest] = useState(null);
     const [searchValue, setSearchValue] = useState("");
-    const [modules, setModules] = useState([
-        {
-            "title": "Основы SQL",
-            "description": "Изучение баз данных.",
-            "createdAt": "01.01.25",
-            "previewImg": "/lessons_preview/icon1.png",
-        },
-        {
-            "title": "Продвинутый SQL",
-            "description": "Углубленное изучение запросов.",
-            "createdAt": "01.01.25",
-            "previewImg": "/lessons_preview/icon2.png",
-        },
-        {
-            "title": "Оптимизация запросов",
-            "description": "Методы повышения производительности SQL.",
-            "createdAt": "01.01.25",
-            "previewImg": "/lessons_preview/icon3.png",
-        },
-        {
-            "title": "Работа с транзакциями",
-            "description": "Управление транзакциями и их свойствами.",
-            "createdAt": "01.01.25",
-            "previewImg": "/lessons_preview/icon4.png",
-        },
-        {
-            "title": "Безопасность баз данных",
-            "description": "Методы защиты данных и доступа.",
-            "createdAt": "01.01.25",
-            "previewImg": "/lessons_preview/icon5.png",
-        },
-        {
-            "title": "SQL для аналитиков",
-            "description": "Анализ данных с помощью SQL-запросов.",
-            "createdAt": "01.01.25",
-            "previewImg": "/lessons_preview/iconwhite1.png",
-        },
-        {
-            "title": "Интеграция SQL",
-            "description": "Связывание SQL с другими языками.",
-            "createdAt": "01.01.25",
-            "previewImg": "/lessons_preview/iconwhite2.png",
-        },
-    ]);
+    const [modules, setModules] = useState();
     const [isEducationLoading, setIsEducationLoading] = useState(false);
     const [educationError, setEducationError] = useState(null);
 
@@ -59,6 +16,7 @@ export const EducationContextProvider = ({ children }) => {
             try {
                 setIsEducationLoading(true);
                 const { data } = await ModuleService.fetchModules();
+                console.log(data);
                 setModules(data);
             } catch (err) {
                 setEducationError(err.message);
