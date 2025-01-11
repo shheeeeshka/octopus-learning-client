@@ -141,7 +141,7 @@ const AdminPage = () => {
                             >
                                 <option value="" disabled>Select a module</option>
                                 {
-                                    modules.map(module => (
+                                    modules?.map(module => (
                                         <option key={module._id} value={module._id}>
                                             {module.title}
                                         </option>

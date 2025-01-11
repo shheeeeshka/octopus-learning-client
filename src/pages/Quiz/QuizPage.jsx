@@ -7,11 +7,12 @@ import { AuthContext } from "../../context/AuthContext";
 import { EducationContext } from "../../context/EducationContext";
 
 const QuizPage = () => {
-    const { updateUserStatistics, userStatistics } = useContext(AuthContext);
-    const { test, setTest } = useContext(EducationContext);
+    const { updateUserStatistics } = useContext(AuthContext);
+    const { quiz, fetchTest, modules } = useContext(EducationContext);
+
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const topicName = queryParams.get("topic");
+    const moduleId = queryParams.get("module");
 
     const [questionIndex, setQuestionIndex] = useState(0);
     const [now, setNow] = useState(0);
@@ -20,6 +21,17 @@ const QuizPage = () => {
     const [correctAnswers, setCorrectAnswers] = useState(0);
     const [totalAnswers, setTotalAnswers] = useState(0);
     const [elapsedTime, setElapsedTime] = useState(0);
+    const [test, setTest] = useState(null);
+    const [moduleInfo, setModuleInfo] = useState(null);
+
+    useEffect(() => {
+        const content = modules?.filter(module => module._id === moduleId);
+        setModuleInfo(content[0]);
+    }, [modules, moduleId]);
+
+    useEffect(() => {
+        setTest(quiz);
+    }, [quiz]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -89,7 +101,7 @@ const QuizPage = () => {
             <div className={styles["t-p-window"]}>
                 <div className={styles["t-p-window-head"]}>
                     <div>
-                        <h3 style={{ fontSize: "1.7rem" }}>{topicName}</h3>
+                        <h3 style={{ fontSize: "1.7rem" }}>{moduleInfo?.title || ""}</h3>
                     </div>
                     <div style={{ width: "40%", height: "1.6rem" }}>
                         <ProgressBar

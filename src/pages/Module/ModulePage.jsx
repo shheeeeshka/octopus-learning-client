@@ -12,13 +12,13 @@ const ModulePage = () => {
 
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const topicName = queryParams.get("topic");
+    const moduleId = queryParams.get("module");
 
     useEffect(() => {
-        const content = modules?.filter(module => module.title === topicName);
+        const content = modules?.filter(module => module._id === moduleId);
         setPageContent(content[0]?.content);
         setSelectedModule(content[0]);
-    }, [modules, topicName]);
+    }, [modules, moduleId]);
 
     function highlightText(content, search) {
         if (!search) return content;
@@ -30,9 +30,9 @@ const ModulePage = () => {
         <div className={styles["module-page-container"]}>
             <Header />
             <div className={styles["module-window"]}>
-                <h1>{topicName}</h1>
+                <h1>{selectedModule?.title || ""}</h1>
                 <div className={styles["module-content"]} dangerouslySetInnerHTML={{ __html: highlightText(pageContent, searchValue) }}></div>
-                <Link onClick={() => fetchTest(selectedModule?._id)} to={`/quiz?topic=${topicName}`} className={styles["open-test-button"]}>Пройти тест</Link>
+                <Link onClick={() => fetchTest(moduleId)} to={`/quiz?module=${moduleId}`} className={styles["open-test-button"]}>Пройти тест</Link>
             </div>
         </div>
     );

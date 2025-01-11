@@ -59,7 +59,7 @@ const HomePage = () => {
                         }
                         {
                             (Array.isArray(filteredModules) && filteredModules?.length > 0) && filteredModules?.map((module, ind) => (
-                                <Link to={`module?topic=${module.title}`} key={ind} className={styles["module-card"]}>
+                                <Link to={`module?module=${module._id}`} key={ind} className={styles["module-card"]}>
                                     <div style={{ height: 40 }}>
                                         <div style={{ height: 65, position: "relative", width: 65 }}>
                                             <div

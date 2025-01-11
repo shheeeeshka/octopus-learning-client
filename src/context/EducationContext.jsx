@@ -5,7 +5,7 @@ import TestService from "../services/TestService";
 export const EducationContext = createContext();
 
 export const EducationContextProvider = ({ children }) => {
-    const [test, setTest] = useState(null);
+    const [quiz, setQuiz] = useState(null);
     const [searchValue, setSearchValue] = useState("");
     const [modules, setModules] = useState();
     const [isEducationLoading, setIsEducationLoading] = useState(false);
@@ -33,7 +33,7 @@ export const EducationContextProvider = ({ children }) => {
         try {
             setIsEducationLoading(true);
             const { data } = await TestService.fetchTest(moduleId);
-            setTest(data);
+            setQuiz(data);
             console.log(data);
         } catch (err) {
             setEducationError(err.message);
@@ -55,7 +55,7 @@ export const EducationContextProvider = ({ children }) => {
         value={{
             searchValue,
             updateSearchValue,
-            test,
+            quiz,
             fetchTest,
             modules,
             isEducationLoading,
