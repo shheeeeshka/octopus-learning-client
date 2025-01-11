@@ -44,6 +44,7 @@ const QuizPage = () => {
     }, []);
 
     useEffect(() => {
+        if (totalAnswers == 0 || correctAnswers == 0 || !totalAnswers || !correctAnswers) setNow(0);
         setNow(Math.round((correctAnswers / totalAnswers) * 100));
         // setNow(Math.round(((questionIndex + 1) / test["questions"].length) * 100));
     }, [correctAnswers, totalAnswers]);

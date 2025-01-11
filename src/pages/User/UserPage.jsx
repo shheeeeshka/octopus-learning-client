@@ -84,10 +84,10 @@ const UserPage = () => {
                     {
                         userAchievements?.map((ach, ind) => (
                             <li className={styles["achievement-list-item"]} key={ind}>
-                                <img src={API_URL + "/" + ach.img || ""} alt="achievement" />
+                                <img src={`${API_URL}/${ach.img || ""}`} alt="achievement" />
                                 <div className="d-flex flex-column">
-                                    <span style={{ fontSize: 18, fontWeight: 800 }}>{ach.title}</span>
-                                    <span style={{ fontSize: 14, fontWeight: 500 }}>{ach.description || "Bii"}</span>
+                                    <span style={{ fontSize: 18, fontWeight: 800 }}>{ach.title || "Title"}</span>
+                                    <span style={{ fontSize: 14, fontWeight: 500 }}>{ach.description || "Description"}</span>
                                 </div>
                             </li>
                         ))

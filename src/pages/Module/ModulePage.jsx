@@ -1,7 +1,7 @@
 import styles from "./ModulePage.module.css";
 
 import { useContext, useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { EducationContext } from "../../context/EducationContext";
 import Header from "../../components/Header/Header";
 
@@ -30,9 +30,27 @@ const ModulePage = () => {
         <div className={styles["module-page-container"]}>
             <Header />
             <div className={styles["module-window"]}>
-                <h1>{selectedModule?.title || ""}</h1>
-                <div className={styles["module-content"]} dangerouslySetInnerHTML={{ __html: highlightText(pageContent, searchValue) }}></div>
-                <Link onClick={() => fetchTest(moduleId)} to={`/quiz?module=${moduleId}`} className={styles["open-test-button"]}>Пройти тест</Link>
+                <div className={styles["module-content-wrapper"]}>
+                    <h1>{selectedModule?.title || ""}</h1>
+                    <div className={styles["module-content"]} dangerouslySetInnerHTML={{ __html: highlightText(pageContent, searchValue) }}></div>
+                    <Link onClick={() => fetchTest(moduleId)} to={`/quiz?module=${moduleId}`} className={styles["open-test-button"]}>Пройти тест</Link>
+                </div>
+                <div className={styles["module-nav-wrapper"]}>
+                    <div className="d-flex flex-column" style={{ gap: 20 }}>
+                        {
+                            modules?.map((module, moduleIndex) => (
+                                <NavLink
+                                    to={`/module?module=${module._id || ""}`}
+                                    className={({ isActive }) => (isActive && moduleId === module._id) ? styles["module-nav-block"] + " " + styles["module-nav-block-active"] : styles["module-nav-block"]}
+                                    key={moduleIndex}
+                                >
+                                    <span>{moduleIndex + 1}.</span>
+                                    <span>{module.title || ""}</span>
+                                </NavLink>
+                            ))
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     );
