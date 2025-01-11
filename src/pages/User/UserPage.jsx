@@ -33,7 +33,7 @@ const UserPage = () => {
                 </div>
                 <div className="d-flex flex-column justify-content-around">
                     <div className="d-flex flex-column">
-                        <span style={{ fontWeight: 600, fontSize: 25, textAlign: "center" }}>{user?.name || "Анатолий"} {user?.surname || "Волочков"}</span>
+                        <span style={{ fontWeight: 600, fontSize: 25, textAlign: "start" }}>{user?.name || "Анатолий"} {user?.surname || "Волочков"}</span>
                         <span style={{ color: "#dadee1" }}>Bonus Buster, 1 lvl</span>
                     </div>
                     <div className="d-flex flex-column" style={{ gap: 30 }}>
@@ -80,6 +80,9 @@ const UserPage = () => {
                 </div>
             </div>
             <div className={styles["achievements-container"]}>
+                <div style={{ textAlign: "start", width: "75%", padding: "20px 0", fontWeight: 800, fontSize: 22 }}>
+                    <h5>Достижения</h5>
+                </div>
                 <ul className={styles["achievements-list"]}>
                     {
                         userAchievements?.map((ach, ind) => (

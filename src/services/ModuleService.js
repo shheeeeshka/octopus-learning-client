@@ -12,4 +12,8 @@ export default class ModuleService {
             },
         });
     }
+
+    static async deleteLesson(lessonId = "") {
+        return $api.delete(`/lessons/delete-lesson/${lessonId}`);
+    }
 }

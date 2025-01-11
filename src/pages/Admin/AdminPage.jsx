@@ -12,6 +12,7 @@ const AdminPage = () => {
     const { modules } = useContext(EducationContext);
     const [lessonContent, setLessonContent] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [deleteLessonId, setDeleteLessonId] = useState("");
     const [lessonInfo, setLessonInfo] = useState({
         title: "",
         description: "",
@@ -58,6 +59,18 @@ const AdminPage = () => {
             const { data } = await TestService.createTest(testInfo);
             setIsLoading(false);
             console.log(data);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const deleteModule = async () => {
+        setIsLoading(true);
+        try {
+            const { data } = await ModuleService.deleteLesson(deleteLessonId);
+            setIsLoading(false);
         } catch (err) {
             console.error(err);
         } finally {
@@ -117,6 +130,23 @@ const AdminPage = () => {
                             const file = e.target.files[0];
                             setLessonInfo(info => ({ ...info, img: file }));
                         }} />
+                    </div>
+                    <div className="d-flex align-items-center" style={{ gap: 10 }}>
+                        <select
+                            style={{ borderRadius: 10, padding: 4, width: 191, height: 34 }}
+                            value={deleteLessonId}
+                            onChange={(e) => setDeleteLessonId(e.target.value)}
+                        >
+                            <option value="" disabled>Select a module</option>
+                            {
+                                modules?.map(module => (
+                                    <option key={module._id} value={module._id}>
+                                        {module.title}
+                                    </option>
+                                ))
+                            }
+                        </select>
+                        <span style={{ border: "1px solid red", color: "red", padding: 5, borderRadius: 10 }} onClick={() => deleteModule()}>Удалить Модуль</span>
                     </div>
                     <ReactQuill
                         theme="snow"
