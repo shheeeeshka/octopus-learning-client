@@ -22,7 +22,7 @@ const AdminPage = () => {
     const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0);
     const [testInfo, setTestInfo] = useState({
         moduleId: "",
-        withTimer: false,
+        timer: "",
         testType: "default",
         questions: [],
     });
@@ -181,7 +181,7 @@ const AdminPage = () => {
                         </div>
                         <div className="d-flex align-items-center justify-content-between" style={{ gap: 10, width: 280 }}>
                             <label>Timer</label>
-                            <input className={styles["t-inp"]} type="text" value={testInfo?.withTimer} onChange={(e) => setTestInfo(p => ({ ...p, withTimer: e.target.value }))} />
+                            <input className={styles["t-inp"]} type="text" value={testInfo?.timer} onChange={(e) => setTestInfo(p => ({ ...p, timer: e.target.value }))} />
                         </div>
                         <div className="d-flex align-items-center justify-content-between" style={{ gap: 10, width: 280 }}>
                             <label>Type</label>
@@ -319,4 +319,4 @@ export default AdminPage;
 //     }
 // ]
 
-// moduleId, withTimer, testType
+// moduleId, timer, testType

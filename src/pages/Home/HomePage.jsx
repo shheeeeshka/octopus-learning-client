@@ -9,6 +9,7 @@ import Calendar from "react-calendar";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import Header from "../../components/Header/Header";
 import { API_URL } from "../../utils/constants";
+import Spinner from "react-bootstrap/esm/Spinner";
 
 const HomePage = () => {
     const { user } = useContext(AuthContext);
@@ -54,7 +55,7 @@ const HomePage = () => {
                         }
                         {
                             isEducationLoading && <div>
-                                <h3>Подгружаем уроки для Вас</h3>
+                                <Spinner />
                             </div>
                         }
                         {

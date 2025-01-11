@@ -20,7 +20,9 @@ const QuizPage = () => {
 
     const [correctAnswers, setCorrectAnswers] = useState(0);
     const [totalAnswers, setTotalAnswers] = useState(0);
+    const [remainingTime, setRemainingTime] = useState(-1);
     const [elapsedTime, setElapsedTime] = useState(0);
+    const [isTestOver, setIsTestOver] = useState(false);
     const [test, setTest] = useState(null);
     const [moduleInfo, setModuleInfo] = useState(null);
 
@@ -36,21 +38,39 @@ const QuizPage = () => {
     }, [modules, moduleId]);
 
     useEffect(() => {
-        if (!quiz) {
-            fetchTest(moduleId);
-        }
-        setTest(quiz);
-    }, [quiz, moduleId, fetchTest]);
-
-    useEffect(() => {
+        if (remainingTime === -1) return;
         const interval = setInterval(() => {
             setElapsedTime(prevTime => prevTime + 1);
+            setRemainingTime(prevTime => {
+                if (prevTime <= 1) {
+                    clearInterval(interval);
+                    setIsTestOver(true);
+                    setShowTestResults(true);
+                    return 0;
+                }
+                return prevTime - 1;
+            });
         }, 1000);
+
+        if (isTestOver) return clearInterval(interval);
 
         return () => {
             clearInterval(interval);
         };
-    }, []);
+    }, [remainingTime, isTestOver]);
+
+    useEffect(() => {
+        if (!quiz) {
+            fetchTest(moduleId);
+        } else {
+            setTest(quiz);
+            if (quiz.timer && !isNaN(+quiz.timer)) {
+                setRemainingTime(+quiz.timer * 60);
+            } else {
+                setRemainingTime(-1);
+            }
+        }
+    }, [quiz, moduleId, fetchTest]);
 
     useEffect(() => {
         if (totalAnswers === 0) {
@@ -61,11 +81,12 @@ const QuizPage = () => {
     }, [correctAnswers, totalAnswers]);
 
     const handleGoToPreviousQuestion = () => {
-        if (questionIndex === 0) return;
+        if (questionIndex === 0 || isTestOver) return;
         setQuestionIndex(p => p - 1);
     };
 
     const handleGoToNextQuestion = () => {
+        if (isTestOver) return;
         const move = test?.questions[questionIndex].answers?.some(ans => ans["displayCorrectAnswers"]);
         setTest(test => {
             const p = { ...test };
@@ -83,9 +104,10 @@ const QuizPage = () => {
             updateUserStatistics({ correctAnswersCount: 1 });
             setCorrectAnswers(p => p + 1);
         };
-        if (test["questions"].length === questionIndex + 1) {
+        if (test?.questions?.length === questionIndex + 1) {
             updateUserStatistics({ coveredTopicsCount: 1 });
             setTotalAnswers(p => p + 1);
+            setIsTestOver(true);
             return setShowTestResults(true);
         }
         if (move) return setQuestionIndex(p => p + 1);
@@ -108,22 +130,62 @@ const QuizPage = () => {
         // setQuestionIndex(p => p + 1);
     };
 
+    const getTimeString = (seconds) => {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = Math.round(seconds % 60);
+
+        const minuteLabel = getMinuteLabel(minutes);
+        const secondLabel = getSecondLabel(remainingSeconds);
+
+        return `${minutes} ${minuteLabel} ${remainingSeconds} ${secondLabel}`;
+    };
+
+    const getMinuteLabel = (count) => {
+        if (count % 10 === 1 && count % 100 !== 11) {
+            return "минута";
+        } else if ((count % 10 >= 2 && count % 10 <= 4) && (count % 100 < 10 || count % 100 >= 20)) {
+            return "минуты";
+        } else {
+            return "минут";
+        }
+    };
+
+    const getSecondLabel = (count) => {
+        if (count % 10 === 1 && count % 100 !== 11) {
+            return "секунда";
+        } else if ((count % 10 >= 2 && count % 10 <= 4) && (count % 100 < 10 || count % 100 >= 20)) {
+            return "секунды";
+        } else {
+            return "секунд";
+        }
+    };
+
     if (test) return (
         <div className={styles["quiz-page-container"]}>
             {
                 !isEducationLoading && <div className={styles["t-p-window"]}>
                     <div className={styles["t-p-window-head"]}>
-                        <div>
-                            <h3 style={{ fontSize: "1.7rem" }}>{moduleInfo?.title || ""}</h3>
+                        <div className={styles["t-p-window-head-progress-cont"]}>
+                            <div>
+                                <h3 style={{ fontSize: "1.7rem" }}>{moduleInfo?.title || ""}</h3>
+                            </div>
+                            <div style={{ width: "45%", height: "1.6rem" }}>
+                                <ProgressBar
+                                    now={now}
+                                    label={`${now}%`}
+                                    style={{ height: 18, borderRadius: 10 }}
+                                    variant={now > 70 ? "success" : (now > 49 ? "warning" : "danger")}
+                                />
+                            </div>
                         </div>
-                        <div style={{ width: "40%", height: "1.6rem" }}>
-                            <ProgressBar
-                                now={now}
-                                label={`${now}%`}
-                                style={{ height: 18, borderRadius: 10 }}
-                                variant={now > 70 ? "success" : (now > 49 ? "warning" : "danger")}
-                            />
-                        </div>
+                        {
+                            (!isEducationLoading && test?.timer) && <div className="d-flex" style={{ gap: 15 }}>
+                                <span>Осталось :</span>
+                                <span style={{ color: remainingTime < 10 ? "red" : "black" }}>
+                                    {getTimeString(remainingTime)}
+                                </span>
+                            </div>
+                        }
                     </div>
                     <div className={styles["quiz-main-content"]}>
                         <span className={styles["question-span"]}>{test["questions"][questionIndex].question || "Подгружаем материалы..."}</span>
