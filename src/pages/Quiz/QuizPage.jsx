@@ -44,9 +44,11 @@ const QuizPage = () => {
     }, []);
 
     useEffect(() => {
-        if (totalAnswers == 0 || correctAnswers == 0 || !totalAnswers || !correctAnswers) setNow(0);
-        setNow(Math.round((correctAnswers / totalAnswers) * 100));
-        // setNow(Math.round(((questionIndex + 1) / test["questions"].length) * 100));
+        if (totalAnswers === 0) {
+            setNow(0);
+        } else {
+            setNow(Math.round((correctAnswers / totalAnswers) * 100));
+        }
     }, [correctAnswers, totalAnswers]);
 
     const handleGoToPreviousQuestion = () => {
@@ -58,11 +60,11 @@ const QuizPage = () => {
         const move = test?.questions[questionIndex].answers?.some(ans => ans["displayCorrectAnswers"]);
         setTest(test => {
             const p = { ...test };
-            p.questions[questionIndex].answers?.forEach((questions) => {
-                if (questions.isCorrect) {
-                    questions["displayCorrectAnswers"] = true;
+            p.questions[questionIndex].answers?.forEach((answer) => {
+                if (answer.isCorrect) {
+                    answer["displayCorrectAnswers"] = true;
                 } else {
-                    questions["displayCorrectAnswers"] = false;
+                    answer["displayCorrectAnswers"] = false;
                 }
             });
             return p;

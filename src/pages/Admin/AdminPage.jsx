@@ -146,7 +146,7 @@ const AdminPage = () => {
                                 ))
                             }
                         </select>
-                        <span style={{ border: "1px solid red", color: "red", padding: 5, borderRadius: 10 }} onClick={() => deleteModule()}>Удалить Модуль</span>
+                        <span style={{ border: "1px solid red", color: "red", padding: 5, borderRadius: 10, cursor: "pointer" }} onClick={() => deleteModule()}>Удалить Модуль</span>
                     </div>
                     <ReactQuill
                         theme="snow"

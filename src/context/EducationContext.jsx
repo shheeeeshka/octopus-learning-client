@@ -32,7 +32,9 @@ export const EducationContextProvider = ({ children }) => {
     const fetchTest = useCallback(async (moduleId = "") => {
         try {
             setIsEducationLoading(true);
+            setQuiz(null);
             const { data } = await TestService.fetchTest(moduleId);
+            if (!data.questions.length) return setQuiz(null);
             setQuiz(data);
             console.log(data);
         } catch (err) {
