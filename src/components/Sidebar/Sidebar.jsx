@@ -35,7 +35,9 @@ const Sidebar = ({ isMenuOpened, setIsMenuOpened }) => {
                         className={({ isActive }) => isActive ? styles["nav-link"] + " " + styles["nav-link-active"] : styles["nav-link"]}
                         onClick={() => setIsMenuOpened(false)} to="user-profile"><Icons variant="user" size="22" /><span>Профиль</span></NavLink></li>
                     {
-                        (user && user?.role?.includes("admin")) && <li><Link to="admin">Админ</Link></li>
+                        (user && user?.role?.includes("admin")) && <li><NavLink
+                        className={({ isActive }) => isActive ? styles["nav-link"] + " " + styles["nav-link-active"] : styles["nav-link"]}
+                        onClick={() => setIsMenuOpened(false)} to="admin"><Icons variant="user" size="22" /><span>Админ</span></NavLink></li>
                     }
                 </ul>
             </div>
