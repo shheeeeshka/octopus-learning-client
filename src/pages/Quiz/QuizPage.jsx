@@ -8,7 +8,7 @@ import { EducationContext } from "../../context/EducationContext";
 
 const QuizPage = () => {
     const { updateUserStatistics } = useContext(AuthContext);
-    const { quiz, fetchTest, modules } = useContext(EducationContext);
+    const { quiz, fetchTest, modules, isEducationLoading } = useContext(EducationContext);
 
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -25,13 +25,22 @@ const QuizPage = () => {
     const [moduleInfo, setModuleInfo] = useState(null);
 
     useEffect(() => {
-        const content = modules?.filter(module => module._id === moduleId);
-        setModuleInfo(content[0]);
+        if (modules && modules.length > 0) {
+            const content = modules?.filter(module => module._id === moduleId);
+            if (content.length > 0) {
+                setModuleInfo(content[0]);
+            } else {
+                setModuleInfo({});
+            }
+        }
     }, [modules, moduleId]);
 
     useEffect(() => {
+        if (!quiz) {
+            fetchTest(moduleId);
+        }
         setTest(quiz);
-    }, [quiz]);
+    }, [quiz, moduleId, fetchTest]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -101,40 +110,42 @@ const QuizPage = () => {
 
     if (test) return (
         <div className={styles["quiz-page-container"]}>
-            <div className={styles["t-p-window"]}>
-                <div className={styles["t-p-window-head"]}>
-                    <div>
-                        <h3 style={{ fontSize: "1.7rem" }}>{moduleInfo?.title || ""}</h3>
+            {
+                !isEducationLoading && <div className={styles["t-p-window"]}>
+                    <div className={styles["t-p-window-head"]}>
+                        <div>
+                            <h3 style={{ fontSize: "1.7rem" }}>{moduleInfo?.title || ""}</h3>
+                        </div>
+                        <div style={{ width: "40%", height: "1.6rem" }}>
+                            <ProgressBar
+                                now={now}
+                                label={`${now}%`}
+                                style={{ height: 18, borderRadius: 10 }}
+                                variant={now > 70 ? "success" : (now > 49 ? "warning" : "danger")}
+                            />
+                        </div>
                     </div>
-                    <div style={{ width: "40%", height: "1.6rem" }}>
-                        <ProgressBar
-                            now={now}
-                            label={`${now}%`}
-                            style={{ height: 18, borderRadius: 10 }}
-                            variant={now > 70 ? "success" : (now > 49 ? "warning" : "danger")}
-                        />
+                    <div className={styles["quiz-main-content"]}>
+                        <span className={styles["question-span"]}>{test["questions"][questionIndex].question || "Подгружаем материалы..."}</span>
+                        <ul className={styles["answers-block"]}>
+                            {
+                                test["questions"][questionIndex].answers?.map((ans, ind) => (
+                                    <li
+                                        key={ind}
+                                        onClick={() => handleAnswer(ind)}
+                                        className={styles["answer-option"] + `${ans.isChecked && !ans.displayCorrectAnswers ? " " + styles["a-o-checked"] : ""}` + `${ans.displayCorrectAnswers ? " " + styles["a-o-display-correct-ans"] : ""}`}
+                                    >{ans.answer}</li>
+                                ))
+                            }
+                        </ul>
+                    </div>
+                    <div className={styles["bottom-block"]}>
+                        <div className={styles["t-p-window-bottom-btn"] + " no-select"} onClick={() => handleGoToPreviousQuestion()}><span>Назад</span></div>
+                        <div className={styles["t-p-window-bottom-pagin"]}><span>{questionIndex + 1}/{test?.questions?.length}</span></div>
+                        <div className={styles["t-p-window-bottom-btn"] + " no-select"} onClick={() => handleGoToNextQuestion()}><span>{test?.questions?.length - 1 === questionIndex ? "Завершить" : (test?.questions[questionIndex].answers?.some(ans => ans["displayCorrectAnswers"]) ? "Далее" : "Проверить")}</span></div>
                     </div>
                 </div>
-                <div className={styles["quiz-main-content"]}>
-                    <span className={styles["question-span"]}>{test["questions"][questionIndex].question || "Подгружаем материалы..."}</span>
-                    <ul className={styles["answers-block"]}>
-                        {
-                            test["questions"][questionIndex].answers?.map((ans, ind) => (
-                                <li
-                                    key={ind}
-                                    onClick={() => handleAnswer(ind)}
-                                    className={styles["answer-option"] + `${ans.isChecked && !ans.displayCorrectAnswers ? " " + styles["a-o-checked"] : ""}` + `${ans.displayCorrectAnswers ? " " + styles["a-o-display-correct-ans"] : ""}`}
-                                >{ans.answer}</li>
-                            ))
-                        }
-                    </ul>
-                </div>
-                <div className={styles["bottom-block"]}>
-                    <div className={styles["t-p-window-bottom-btn"] + " no-select"} onClick={() => handleGoToPreviousQuestion()}><span>Назад</span></div>
-                    <div className={styles["t-p-window-bottom-pagin"]}><span>{questionIndex + 1}/{test?.questions?.length}</span></div>
-                    <div className={styles["t-p-window-bottom-btn"] + " no-select"} onClick={() => handleGoToNextQuestion()}><span>{test?.questions?.length - 1 === questionIndex ? "Завершить" : (test?.questions[questionIndex].answers?.some(ans => ans["displayCorrectAnswers"]) ? "Далее" : "Проверить")}</span></div>
-                </div>
-            </div>
+            }
             <img src="/photo_518863.png" alt="robot" className={styles["auth-bg-robot"]} />
             {
                 showTestResults && <div className={styles["quiz-results-modal"]}>
