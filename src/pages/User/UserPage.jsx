@@ -87,7 +87,7 @@ const UserPage = () => {
                                 <img src={`${API_URL}/${ach.img || ""}`} alt="achievement" />
                                 <div className="d-flex flex-column">
                                     <span style={{ fontSize: 18, fontWeight: 800 }}>{ach.title || "Title"}</span>
-                                    <span style={{ fontSize: 14, fontWeight: 500 }}>{ach.description || "Description"}</span>
+                                    <span style={{ fontSize: 14, fontWeight: 500 }}>{ach.description || ""}</span>
                                 </div>
                             </li>
                         ))
