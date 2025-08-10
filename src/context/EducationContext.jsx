@@ -5,65 +5,64 @@ import TestService from "../services/TestService";
 export const EducationContext = createContext();
 
 export const EducationContextProvider = ({ children }) => {
-    const [quiz, setQuiz] = useState(null);
-    const [searchValue, setSearchValue] = useState("");
-    const [modules, setModules] = useState();
-    const [isEducationLoading, setIsEducationLoading] = useState(false);
-    const [educationError, setEducationError] = useState(null);
+  const [quiz, setQuiz] = useState(null);
+  const [searchValue, setSearchValue] = useState("");
+  const [modules, setModules] = useState([]);
+  const [isEducationLoading, setIsEducationLoading] = useState(false);
+  const [educationError, setEducationError] = useState(null);
 
-    useEffect(() => {
-        const fetchModules = async () => {
-            try {
-                setIsEducationLoading(true);
-                const { data } = await ModuleService.fetchModules();
-                console.log(data);
-                setModules(data);
-            } catch (err) {
-                setEducationError(err.message);
-                console.error(err);
-            } finally {
-                setIsEducationLoading(false);
-            }
-        };
+  const refreshModules = useCallback(async () => {
+    try {
+      setIsEducationLoading(true);
+      const { data } = await ModuleService.fetchModules();
+      setModules(data);
+      return data;
+    } catch (err) {
+      setEducationError(err.message);
+      console.error(err);
+    } finally {
+      setIsEducationLoading(false);
+    }
+  }, []);
 
-        fetchModules();
-    }, []);
+  useEffect(() => {
+    refreshModules();
+  }, [refreshModules]);
 
-    const fetchTest = useCallback(async (moduleId = "") => {
-        try {
-            setIsEducationLoading(true);
-            setQuiz(null);
-            const { data } = await TestService.fetchTest(moduleId);
-            if (!data.questions.length) return setQuiz(null);
-            setQuiz(data);
-            console.log(data);
-        } catch (err) {
-            setEducationError(err.message);
-            console.error(err);
-        } finally {
-            setIsEducationLoading(false);
-        }
-    }, []);
+  const fetchTest = useCallback(async (moduleId = "") => {
+    try {
+      setIsEducationLoading(true);
+      setQuiz(null);
+      const { data } = await TestService.fetchTest(moduleId);
+      if (!data || !data?.questions?.length) return setQuiz(null);
+      setQuiz(data);
+    } catch (err) {
+      setEducationError(err.message);
+      console.error(err);
+    } finally {
+      setIsEducationLoading(false);
+    }
+  }, []);
 
-    // const updateTest = useCallback(() => {
-    //     setTest();
-    // }, []);
+  const updateSearchValue = useCallback((newVal = "") => {
+    setSearchValue(newVal);
+  }, []);
 
-    const updateSearchValue = useCallback((newVal = "") => {
-        setSearchValue(newVal);
-    }, []);
-
-    return <EducationContext.Provider
-        value={{
-            searchValue,
-            updateSearchValue,
-            quiz,
-            fetchTest,
-            modules,
-            isEducationLoading,
-            educationError,
-        }}
+  return (
+    <EducationContext.Provider
+      value={{
+        searchValue,
+        updateSearchValue,
+        quiz,
+        fetchTest,
+        modules,
+        setModules,
+        isEducationLoading,
+        educationError,
+        refreshModules,
+      }}
     >
-        {children}
+      {children}
     </EducationContext.Provider>
-}
+  );
+};

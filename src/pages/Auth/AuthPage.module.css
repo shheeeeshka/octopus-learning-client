@@ -1,76 +1,195 @@
-.auth-page-container {
-    padding: 30px 40px;
-    height: 100%;
-    width: 100%;
-    display: grid;
-    place-content: center;
+.authContainer {
+    display: flex;
+    min-height: 100vh;
     background: var(--page-container-bg);
 }
 
-.a-p-window {
-    background: #a2c0d0;
-    border-radius: 10px;
-    box-shadow: 2px 3px 0px 0px rgb(152 152 152 / 50%);
-    width: 100%;
-    height: auto;
-    padding: 25px;
+.authFormContainer {
+    flex: 1;
+    padding: 3rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 20px;
-    z-index: 2;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-.auth-window-input {
-    border-radius: 11px;
-    border: none;
-    background: #e3eaf0;
-    width: 300px;
-    height: 35px;
-    padding: 7px;
-}
-
-.auth-window-label {
-    color: #dadee1;
-}
-
-.auth-photo-container {
-    position: absolute;
-    height: 575px;
-    width: 400px;
-    border-radius: 10px;
-    display: flex;
-    left: 56%;
-    top: 18%;
-    flex-direction: column;
-    justify-content: flex-end;
-    background: linear-gradient(117deg, #8579b1, #61cfce);
-}
-
-.logo-info-wrapper {
+.authLogo {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 1rem;
+    margin-bottom: 2rem;
 }
 
-.auth-details-wrapper {
-    position: relative;
-    height: 100%;
+.authLogo img {
+    width: 50px;
+    height: 50px;
 }
 
-.auth-btn {
-    cursor: pointer;
-    border-radius: 10px;
-    padding: 7px;
-    color: #fff;
-    background: linear-gradient(146deg, #8e7db5, #5bd5cd);
-    min-width: 100px;
-    text-align: center;
+.authLogo h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--module-window-text-color);
+    margin: 0;
+}
+
+.authTitle {
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+    color: var(--module-window-text-color);
     font-weight: 600;
 }
 
-@media (max-width: 950px) {
-    .auth-photo-container {
+.authForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.nameFields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.formLabel {
+    color: var(--module-window-text-color);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.formInput {
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: var(--module-window-bg);
+    color: var(--module-window-text-color);
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.formInput:focus {
+    outline: none;
+    border-color: #6763db;
+    box-shadow: 0 0 0 3px rgba(103, 99, 219, 0.2);
+}
+
+.authButton {
+    padding: 1rem;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #6763db, #a84dff);
+    color: white;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, opacity 0.3s;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
+
+.authButton:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+.authButton:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.authToggle {
+    text-align: center;
+    color: var(--module-window-text-color);
+    margin-top: 1rem;
+}
+
+.toggleLink {
+    color: #6763db;
+    cursor: pointer;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.toggleLink:hover {
+    color: #a84dff;
+}
+
+.authImageContainer {
+    flex: 1;
+    background: linear-gradient(135deg, #6763db, #a84dff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.authContent {
+    max-width: 500px;
+    color: white;
+    z-index: 1;
+}
+
+.authContent h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+}
+
+.authContent p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.authImage {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 992px) {
+    .authContainer {
+        flex-direction: column;
+    }
+
+    .authFormContainer {
+        padding: 2rem;
+        max-width: 100%;
+    }
+
+    .authImageContainer {
+        padding: 2rem;
         display: none;
+    }
+
+    .nameFields {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .authFormContainer {
+        padding: 1.5rem;
+    }
+
+    .authLogo {
+        margin-bottom: 1.5rem;
+    }
+
+    .authTitle {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
     }
 }
